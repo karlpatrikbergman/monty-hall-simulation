@@ -22,7 +22,7 @@ public class Staff {
 		int randomIndex = RandomImpl.nextInt(boxes.size());
 		boxes.get(randomIndex).putMoneyIn();
 		
-		System.out.println("Staff randomly put money in box: " + randomIndex);
+		//System.out.println("Staff randomly put money in box: " + randomIndex);
 	}
 	
 	private void emptyAllBoxes() {

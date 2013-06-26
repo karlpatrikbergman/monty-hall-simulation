@@ -14,7 +14,7 @@ public class Host {
 		for (HostViewOfBox box : boxes) {
 			if (!box.isPicked() && !box.containsMoney()) {
 				box.open();
-				System.out.println("Host opened empty box: " + box.getId());
+				//System.out.println("Host opened empty box: " + box.getId());
 				break;
 			}
 		}
