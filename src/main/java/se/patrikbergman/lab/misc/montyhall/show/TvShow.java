@@ -8,6 +8,17 @@ import se.patrikbergman.lab.misc.montyhall.host.Host;
 import se.patrikbergman.lab.misc.montyhall.staff.Staff;
 import se.patrikbergman.lab.misc.montyhall.util.BoxFactory;
 
+/**
+ * @author patrikbergman
+ *
+ * To run a Monty Hall Tv-show simulation where guest always stays with first choice
+ * set boolean guestStaysWithFirstChoice = true.
+ * 
+ * To run a Monty Hall Tv-show simulation where guest never stays with first choice
+ * set boolean guestStaysWithFirstChoice = false 
+ *
+ *
+ */
 public class TvShow {
 	private final Staff staff;
 	private final Host host;
@@ -53,13 +64,15 @@ public class TvShow {
 
 	public static void main(String args[]) {
 		int nrOfGuestWins = 0;
+		boolean guestStaysWithFirstChoice = false;
 		int i;
+		
 		for(i=0; i<1000; i++) {
-			boolean guestStaysWithFirstChoice = false;
 			TvShow tvShow = new TvShow(guestStaysWithFirstChoice);
 			tvShow.run();
 			nrOfGuestWins += (tvShow.guestWonTheMoney()) ? 1 : 0;
 		}
+		
 		float procentWins = (float) 100.0 * ((float) nrOfGuestWins / (float) i); 
 		System.out.printf("Guest won in %d shows out of %d shows (%f%%)", nrOfGuestWins, i, procentWins);
 	}
