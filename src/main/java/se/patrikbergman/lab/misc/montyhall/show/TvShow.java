@@ -6,18 +6,19 @@ import se.patrikbergman.lab.misc.montyhall.box.Box;
 import se.patrikbergman.lab.misc.montyhall.guest.Guest;
 import se.patrikbergman.lab.misc.montyhall.host.Host;
 import se.patrikbergman.lab.misc.montyhall.staff.Staff;
+import se.patrikbergman.lab.misc.montyhall.statistics.Statistics;
 import se.patrikbergman.lab.misc.montyhall.util.BoxFactory;
 
 /**
  * @author patrikbergman
- *
- * To run a Monty Hall Tv-show simulation where guest always stays with first choice
- * set boolean guestStaysWithFirstChoice = true.
  * 
- * To run a Monty Hall Tv-show simulation where guest never stays with first choice
- * set boolean guestStaysWithFirstChoice = false 
- *
- *
+ *         To run a Monty Hall Tv-show simulation where guest always stays with
+ *         first choice set boolean guestStaysWithFirstChoice = true.
+ * 
+ *         To run a Monty Hall Tv-show simulation where guest never stays with
+ *         first choice set boolean guestStaysWithFirstChoice = false
+ * 
+ * 
  */
 public class TvShow {
 	private final Staff staff;
@@ -52,29 +53,50 @@ public class TvShow {
 	protected List<Box> getBoxes() {
 		return boxes;
 	}
-	
-	protected boolean guestWonTheMoney() {
-		for(Box box: boxes) {
-			if(box.isPicked() && box.containsMoney()) {
+
+	public boolean guestWonTheMoney() {
+		for (Box box : boxes) {
+			if (box.isPicked() && box.containsMoney()) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static void main(String args[]) {
-		int nrOfGuestWins = 0;
-		boolean guestStaysWithFirstChoice = false;
-		int i;
-		
-		for(i=0; i<1000; i++) {
-			TvShow tvShow = new TvShow(guestStaysWithFirstChoice);
+	private static Statistics runManyShowsInARow(int nrOfTvShows, boolean guestStaysWithFirstPick) {
+
+		System.out.printf("Running %d TV-shows where guestStaysWithFirstChoice=%b...%n", nrOfTvShows,
+				guestStaysWithFirstPick);
+
+		Statistics statistics = new Statistics();
+		for (int i = 0; i < nrOfTvShows; i++) {
+			TvShow tvShow = new TvShow(guestStaysWithFirstPick);
 			tvShow.run();
-			nrOfGuestWins += (tvShow.guestWonTheMoney()) ? 1 : 0;
+			statistics.addTvShow(tvShow);
 		}
+		return statistics;
+	}
+
+	public static void main(String args[]) {
+		Statistics statsGuestStaysWithFirstPick = runManyShowsInARow(100000, true);
+
+		System.out.printf("Guest won in %d shows out of %d shows (%f%%)%n", statsGuestStaysWithFirstPick.getNrOfWins(),
+				statsGuestStaysWithFirstPick.getNrOfShows(), statsGuestStaysWithFirstPick.getProcentWins());
 		
-		float procentWins = (float) 100.0 * ((float) nrOfGuestWins / (float) i); 
-		System.out.printf("Guest won in %d shows out of %d shows (%f%%)", nrOfGuestWins, i, procentWins);
+		System.out.println();
+		
+		Statistics statsGuestChangesPick = runManyShowsInARow(100000, false);
+
+		System.out.printf("Guest won in %d shows out of %d shows (%f%%)%n", statsGuestChangesPick.getNrOfWins(),
+				statsGuestChangesPick.getNrOfShows(), statsGuestChangesPick.getProcentWins());
+		
+		System.out.println();
+		
+		if(statsGuestStaysWithFirstPick.getNrOfWins() > statsGuestChangesPick.getNrOfWins()) {
+			System.out.println("The guest has the best chance to win the money if hen always stays with first pick!");
+		} else {
+			System.out.println("The guest has the best chance to win the money if hen always changes pick!");
+		}
 	}
 
 }
