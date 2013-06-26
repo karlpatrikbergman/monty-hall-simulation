@@ -16,11 +16,11 @@ public class Guest {
 		int randomIndex = RandomImpl.nextInt(boxes.size());
 		boxes.get(randomIndex).setAsPicked();
 
-		System.out.println("Guest randomly picked box nr: " + randomIndex);
+		//System.out.println("Guest randomly picked box nr: " + randomIndex);
 	}
 
 	public void stayWithFirstChoice() {
-		System.out.println("Guest stayed with first choice, box : " + getPickedBox().getId());
+		//System.out.println("Guest stayed with first choice, box : " + getPickedBox().getId());
 	}
 
 	public void pickClosedNotPickedBox() throws RuntimeException {
@@ -33,7 +33,7 @@ public class Guest {
 			}
 			if (!box.isOpen() && box != firstPickedBox) {
 				box.setAsPicked();
-				System.out.println("Final pick of guest is box : " + box.getId());
+//				System.out.println("Final pick of guest is box : " + box.getId());
 				continue;
 			}
 			if (!box.isOpen() && box == firstPickedBox) {
@@ -49,13 +49,6 @@ public class Guest {
 		}
 		throw new RuntimeException("No box is set as picked at the moment.");
 	}
-
-	/*
-	 * protected GuestViewOfBox getFirstPickedBox() { return firstPickedBox; }
-	 * 
-	 * protected void setFirstPickedBox(GuestViewOfBox firstPickedBox) {
-	 * if(this.firstPickedBox == null) this.firstPickedBox = firstPickedBox; }
-	 */
 
 	private void setAllBoxesAsNotPicked() {
 		for (GuestViewOfBox box : boxes) {
